@@ -31,6 +31,3 @@ relacionadas entre sí.
 > • Las rutas del API RESTful deben permitir realizar operaciones CRUD en la base de datos.
 
 ---
-
-
-
