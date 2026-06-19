@@ -1,9 +1,9 @@
 import express from "express"
 import customMorgan from "./middlewares/customMorgan.js" ;
 import auth from "./middlewares/auth.js"
+import { SERVER_PORT } from "./config/config.js";
 
 const app = express();
-const PORT = 8080
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +23,7 @@ app.post("/user", (req, res) => {
 })
 
 
-app.listen(PORT, () => {
-    console.log(`Servidor Express escuchando en el puerto ${PORT}`)
-    console.log(`Accede en: http://localhost:${PORT}`)
+app.listen(SERVER_PORT, () => {
+    console.log(`Servidor Express escuchando en el puerto ${SERVER_PORT}`)
+    console.log(`Accede en: http://localhost:${SERVER_PORT}`)
 })

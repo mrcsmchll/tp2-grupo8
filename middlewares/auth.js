@@ -1,8 +1,9 @@
+import { X_API_KEY } from "../config/config.js";
+
 const auth = (req, res, next) => {
     
-  const apiKey = req.headers['x-api-key'];
-  console.log(process.env.dev)
-  if (apiKey === 'mi-clave-secreta') {
+  const reqApiKey = req.headers['x-api-key'];
+  if (reqApiKey === X_API_KEY) {
     next();
   } else {
     res.status(401).json({ mensaje: 'Acceso no autorizado' });
