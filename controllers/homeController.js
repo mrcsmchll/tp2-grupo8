@@ -22,4 +22,4 @@ class HomeController {
 
 }
 
-export default HomeController;
+export default HomeController

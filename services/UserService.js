@@ -1,9 +1,21 @@
 import { Model, where } from "sequelize"
+import { generateToken, verifyToken } from "../utils/jwt.js"
 
 class UserService {
 
     constructor(user){
         this.user = user
+    }
+
+    setUser =  async ({ name, email, password }) => {
+        let user = await this.user.findOne({
+            where: {email}
+        })
+
+        if (user) throw new Error("El email ya existe")
+
+        user = await this.user.create({ name, email, password })
+        return user
     }
 
     getUserById = async (id) => {
@@ -17,17 +29,34 @@ class UserService {
         return user
     }
 
-    setUser =  async ({ name, email, password }) => {
-        let user = await this.user.findOne({
-            where: {email}
+    login = async ({ email, password }) => {
+        const user = await this.user.findOne({
+            where: { email },
+            attributes: ["id", "name", "email", "password"],
         })
 
-        if (user) throw new Error("El email ya existe")
+        if (!user) throw new Error("Usuario no encontrado")
 
-        user = await this.user.create({ name, email, password });
-        return user;
+        const isValidPassword = await this.user.isValidPassword(password, user.password)
+
+        if (!isValidPassword) throw new Error("Contraseña incorrecta")
+
+        const payload = {
+            id: user.id,
+            name: user.name,
+            roleId: user.roleId,
+        }
+
+        const token = generateToken(payload)
+        console.log("🚀 ~ UserService ~ token:", token)
+        return { token, id: user.id }
+    }
+
+    me = async (payload) => {
+        const user = verifyToken(payload)
+        return user
     }
 
 }
 
-export default UserService;
+export default UserService
