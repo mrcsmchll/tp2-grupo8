@@ -61,17 +61,18 @@ class UserController {
             if ( !id ) throw new Error("Id vacio")
             if ( !name && !email && !password) throw new Error("Complete alguno de los campos name, email y password")
 
-            const user = await this.userService.update({id, name, email, password})
+            const user = await this.userService.updateById({id, name, email, password})
             res.status(200).send({ success: true, message: "Usuario actualizado", data: user})
         } catch (error) {
             res.status(400).send({ success: false, message: error.message })
         }
     }
 
-    deleteUser = (req, res) => {
-        //@TODO
+    deleteUser = async (req, res) => {
         try {
-            res.status(200).send({ success: true, message: "Usuario eliminado user" })
+            const id = req.params
+            const user = await this.userService.deleteById(id)
+            res.status(200).send({ success: true, message: "Usuario eliminado"})
         } catch (error) {
             res.status(400).send({ success: false, message: error.message })
         }

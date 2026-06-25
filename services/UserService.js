@@ -49,7 +49,6 @@ class UserService {
         }
 
         const token = generateToken(payload)
-        console.log("🚀 ~ UserService ~ token:", token)
         return { token, id: user.id }
     }
 
@@ -58,7 +57,7 @@ class UserService {
         return user
     }
 
-    update = async ({id, name, email, password}) => {
+    updateById = async ({id, name, email, password}) => {
         let user = await this.user.findOne({where: {id}, attributes: ["id"]})
         
         if (!user) throw Error("No se encontro el usuario")
@@ -77,8 +76,16 @@ class UserService {
             where: {id},
             attributes: ["id", "name", "email", "password"]
         })
-        console.log("🚀 ~ UserService ~ user:", user.dataValues)
         
+        return user
+    }
+
+    deleteById = async (id) => {
+        let existe = await this.user.findOne({where: id, attributes: ["id"]})
+        
+        if (!existe) throw Error("No se encontro el usuario")
+            
+        const user = await this.user.destroy({where: id})
         return user
     }
 
