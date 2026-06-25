@@ -1,5 +1,5 @@
 import { X_API_KEY, SECRET } from "../config/config.js"
-import jwt from "jsonwebtoken"
+import { verifyToken } from "../utils/jwt.js"
 
 export const authApiKey = (req, res, next) => {
   const reqApiKey = req.headers['x-api-key']
@@ -12,10 +12,14 @@ export const authApiKey = (req, res, next) => {
 }
 
 export const authToken = (req, res, next) => {
-  const cookies = req.cookies
-  if (!cookies){res.status(401).send({success: false, message: "Token inexistente"})}
+  const token = req.cookies?.payload
+  if (!token) return res.status(401).send({ success: false, message: "Token inexistente" })
 
-  // const payload = jwt.verify()
-
-  next()
+  try {
+    const payload = verifyToken(token)
+    req.user = payload
+    next()
+  } catch (error) {
+    res.status(401).send({ success: false, message: "Token inválido" })
+  }
 }

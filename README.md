@@ -31,3 +31,12 @@ relacionadas entre sí.
 > • Las rutas del API RESTful deben permitir realizar operaciones CRUD en la base de datos.
 
 ---
+
+Routes:
+- POST `user/signup`
+    Form-encode: `name=<name>&email=<email>&password=<***>`
+- POST `user/login`
+    Form-encoded `email=<email>&password=<***>`
+- PUT `user/update`
+    Header `x-api-key`
+    Form-encoded `id=<1>&name=<name>&email=<mail>&password=<******>`
