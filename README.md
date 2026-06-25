@@ -35,26 +35,23 @@ relacionadas entre sí.
 ### Routes:
 #### Home routes
 
-- GET `/`
-- GET `/readme`
+- GET `/` - Representa la landing page. Devuelve mensaje de bienvenida
+- GET `/readme` - Devuelve el readme
 
 #### User routes
 
-- GET `user/me`
-    Cookie `payload=<token>`
-- GET `user/:id`
-    Header `x-api-key`
 - POST `user/signup`
     Form-encode: `name=<name>&email=<email>&password=<***>`
 - POST `user/login`
     Form-encoded `email=<email>&password=<***>`
     Response Cookie/JWT
+- GET `user/me` 
+    Cookie `payload=<token>`
+- GET `user/:id`
+    Header `x-api-key`
 - PUT `user/:id`
     Header `x-api-key`
     Form-encoded `id=<1>&name=<name>&email=<mail>&password=<******>`
-- PUT `user/:id`
-    Header `x-api-key`
-    Form-encoded `name=<name>&email=<email>&password=<***>`
 - DELETE `user/:id`
     Header `x-api-key`
 
