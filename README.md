@@ -32,11 +32,41 @@ relacionadas entre sí.
 
 ---
 
-Routes:
+### Routes:
+#### Home routes
+
+- GET `/`
+- GET `/readme`
+
+#### User routes
+
+- GET `user/me`
+    Cookie `payload=<token>`
+- GET `user/:id`
+    Header `x-api-key`
 - POST `user/signup`
     Form-encode: `name=<name>&email=<email>&password=<***>`
 - POST `user/login`
     Form-encoded `email=<email>&password=<***>`
-- PUT `user/update`
+    Response Cookie/JWT
+- PUT `user/:id`
     Header `x-api-key`
     Form-encoded `id=<1>&name=<name>&email=<mail>&password=<******>`
+- PUT `user/:id`
+    Header `x-api-key`
+    Form-encoded `name=<name>&email=<email>&password=<***>`
+- DELETE `user/:id`
+    Header `x-api-key`
+
+### Pet routes
+
+- POST `pet/`
+    Cookie `payload=<token>`
+    Form-encoded `name=<name>`
+- GET `pet/me`
+    Cookie `payload=<token>`
+- PUT `pet/:id`
+    Cookie `payload=<token>`
+    Form-encoded `name=<name>`
+- DELETE `pet/:id`
+    Cookie `payload=<token>`
