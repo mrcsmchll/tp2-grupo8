@@ -54,10 +54,15 @@ class UserController {
         }
     }
 
-    updateUser = (req, res) => {
-        //@TODO
+    updateUser = async (req, res) => {
         try {
-            res.status(200).send({ success: true, message: "Usuario actualizado" })
+            const { id, name, email, password } = req.body
+
+            if ( !id ) throw new Error("Id vacio")
+            if ( !name && !email && !password) throw new Error("Complete alguno de los campos name, email y password")
+
+            const user = await this.userService.update({id, name, email, password})
+            res.status(200).send({ success: true, message: "Usuario actualizado", data: user})
         } catch (error) {
             res.status(400).send({ success: false, message: error.message })
         }

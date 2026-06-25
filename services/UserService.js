@@ -21,7 +21,8 @@ class UserService {
     getUserById = async (id) => {
         const user = await this.user.findOne({
             where: id,
-            attributes: ["id", "name", "email", "password"]
+            attributes: ["id", "name", "email", "password"],
+            individualHooks: true
         })
 
         if (!user) throw new Error("No se encontro el usuario")
@@ -54,6 +55,30 @@ class UserService {
 
     me = async (payload) => {
         const user = verifyToken(payload)
+        return user
+    }
+
+    update = async ({id, name, email, password}) => {
+        let user = await this.user.findOne({where: {id}, attributes: ["id"]})
+        
+        if (!user) throw Error("No se encontro el usuario")
+
+        let updatedData = {}
+        if (name) updatedData.name = name
+        if (email) updatedData.email = email
+        if (password) updatedData.password = password
+
+        user = await this.user.update(updatedData, {
+            where: {id},
+            individualHooks: true
+        })
+
+        user = await this.user.findOne({
+            where: {id},
+            attributes: ["id", "name", "email", "password"]
+        })
+        console.log("🚀 ~ UserService ~ user:", user.dataValues)
+        
         return user
     }
 
